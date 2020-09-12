@@ -1,0 +1,11 @@
+{
+    "java.project.referencedLibraries": [
+        "lib/**/*.jar",
+        "junit-4.13.jar",
+        "c:\\Users\\Logan\\Downloads\\hamcrest-core-1.3.jar",
+        "jars/hamcrest-core-1.3.jar",
+        "jars/junit-4.13.jar",
+        "jars/junit-platform-console-standalone-1.7.0-RC1.jar",
+        "c:\\Users\\Logan\\OneDrive\\Problems\\jars\\junit-platform-console-standalone-1.7.0-RC1.jar"
+    ]
+}
