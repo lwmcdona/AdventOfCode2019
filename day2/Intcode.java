@@ -1,13 +1,14 @@
 package day2;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
-import java.util.function.IntBinaryOperator;
 import java.util.stream.Collectors;
 
 public class Intcode {
-    private HashMap<Integer, IntBinaryOperator> map;
+    private HashMap<Integer, Operator> map;
+    private List<Integer> originalCode;
     private List<Integer> code;
 
     public Intcode() {
@@ -24,7 +25,13 @@ public class Intcode {
     }
 
     public void setIntcode(String icode) {
-        this.code = convertCodeToIntegerList(icode);
+        this.originalCode = convertCodeToIntegerList(icode);
+        reset();
+    }
+
+    public void reset() {
+        this.code = new ArrayList<>();
+        this.code.addAll(this.originalCode);
     }
 
     public int compute() {
@@ -45,10 +52,16 @@ public class Intcode {
     }
 
     private void initializeMap() {
-        this.map = new HashMap<Integer, IntBinaryOperator>();
-        this.map.put(99, null);
-        this.map.put(1, (first, second) -> first + second);
-        this.map.put(2, (first, second) -> first * second);
+        this.map = new HashMap<>();
+        this.map.put(99, new HaltOperator());
+        this.map.put(1, new AddOperator());
+        this.map.put(2, new MultiplyOperator());
+        this.map.put(3, new InputOperator());
+        this.map.put(4, new OutputOperator());
+        this.map.put(5, new JumpIfTrueOperator());
+        this.map.put(6, new JumpIfFalseOperator());
+        this.map.put(7, new LessThanOperator());
+        this.map.put(8, new EqualsOperator());
     }
 
     private List<Integer> convertCodeToIntegerList(String icode) {
@@ -56,17 +69,19 @@ public class Intcode {
     }
 
     private int compute(List<Integer> code) {
-        for (int i = 0; i < code.size(); i += 4) {
-            int operand = code.get(i);
-            if (this.map.containsKey(operand)) {
-                if (operand == 99) {
+        int i = 0;
+        while (i < code.size()) {
+            int instruction = code.get(i);
+            int opcode = instruction % 10 + (instruction / 10 % 10 * 10);
+            int paramModes = instruction / 100;
+            Operator operator;
+
+            if (this.map.containsKey(opcode)) {
+                operator = this.map.get(opcode);
+                if ((i = operator.operate(code, i, paramModes)) < 0) {
                     return code.get(0);
-                } else {
-                    int first = code.get(code.get(i + 1));
-                    int second = code.get(code.get(i + 2));
-                    int location = code.get(i + 3);
-                    code.set(location, this.map.get(operand).applyAsInt(first, second));
                 }
+
             } else {
                 return -1;
             }
