@@ -6,17 +6,45 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import day7.Connection;
+
 public class Intcode {
     private HashMap<Integer, Operator> map;
     private List<Integer> originalCode;
     private List<Integer> code;
+    private Integer programCounter;
+
+    public enum ExitCode {
+        CONTINUE, SUCCESS, WAIT_FOR_INPUT, INVALID_INSTRUCTION, NO_HALT
+    }
 
     public Intcode() {
-        initializeMap();
+        this.programCounter = 0;
+        InputOperator inOp = new InputOperator();
+        OutputOperator outOp = new OutputOperator();
+        initializeMap(inOp, outOp);
+    }
+
+    public Intcode(Connection input, Connection output) {
+        this.programCounter = 0;
+        InputOperator inOp = new InputOperator(input);
+        OutputOperator outOp = new OutputOperator(output);
+        initializeMap(inOp, outOp);
     }
 
     public Intcode(String icode) {
-        initializeMap();
+        this.programCounter = 0;
+        InputOperator inOp = new InputOperator();
+        OutputOperator outOp = new OutputOperator();
+        initializeMap(inOp, outOp);
+        setIntcode(icode);
+    }
+
+    public Intcode(String icode, Connection input, Connection output) {
+        this.programCounter = 0;
+        InputOperator inOp = new InputOperator(input);
+        OutputOperator outOp = new OutputOperator(output);
+        initializeMap(inOp, outOp);
         setIntcode(icode);
     }
 
@@ -29,16 +57,25 @@ public class Intcode {
         reset();
     }
 
+    public void setProgramCounter(Integer location) {
+        this.programCounter = location;
+    }
+
     public void reset() {
         this.code = new ArrayList<>();
         this.code.addAll(this.originalCode);
+        this.programCounter = 0;
     }
 
-    public int compute() {
+    public ExitCode compute() {
         return compute(this.code);
     }
 
-    public int compute(String icode) {
+    public int getResult() {
+        return this.code.get(0);
+    }
+
+    public ExitCode compute(String icode) {
         List<Integer> code = convertCodeToIntegerList(icode);
         return compute(code);
     }
@@ -51,13 +88,13 @@ public class Intcode {
         replacements.forEach((pos, value) -> code.set(pos, value));
     }
 
-    private void initializeMap() {
+    private void initializeMap(InputOperator inOp, OutputOperator outOp) {
         this.map = new HashMap<>();
         this.map.put(99, new HaltOperator());
         this.map.put(1, new AddOperator());
         this.map.put(2, new MultiplyOperator());
-        this.map.put(3, new InputOperator());
-        this.map.put(4, new OutputOperator());
+        this.map.put(3, inOp);
+        this.map.put(4, outOp);
         this.map.put(5, new JumpIfTrueOperator());
         this.map.put(6, new JumpIfFalseOperator());
         this.map.put(7, new LessThanOperator());
@@ -68,24 +105,23 @@ public class Intcode {
         return Arrays.asList(icode.split(",")).stream().map(s -> Integer.valueOf(s)).collect(Collectors.toList());
     }
 
-    private int compute(List<Integer> code) {
-        int i = 0;
-        while (i < code.size()) {
-            int instruction = code.get(i);
+    private ExitCode compute(List<Integer> code) {
+        while (this.programCounter < code.size()) {
+            int instruction = code.get(this.programCounter);
             int opcode = instruction % 10 + (instruction / 10 % 10 * 10);
             int paramModes = instruction / 100;
-            Operator operator;
 
+            Operator operator;
             if (this.map.containsKey(opcode)) {
                 operator = this.map.get(opcode);
-                if ((i = operator.operate(code, i, paramModes)) < 0) {
-                    return code.get(0);
+                this.programCounter = operator.operate(code, this.programCounter, paramModes);
+                if (operator.getStatus() != ExitCode.CONTINUE) {
+                    return operator.getStatus();
                 }
-
             } else {
-                return -1;
+                return ExitCode.INVALID_INSTRUCTION;
             }
         }
-        return code.get(0);
+        return ExitCode.NO_HALT;
     }
 }

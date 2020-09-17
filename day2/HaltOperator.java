@@ -2,13 +2,16 @@ package day2;
 
 import java.util.List;
 
+import day2.Intcode.ExitCode;
+
 public class HaltOperator extends Operator {
     public HaltOperator() {
         super();
-        this.opLength = 1;
+        setOpLength(1);
     }
 
     public int operate(List<Integer> code, int index, int paramModes) {
-        return -1;
+        setStatus(ExitCode.SUCCESS);
+        return index;
     }
 }

@@ -31,7 +31,7 @@ public class Day2 {
         replacements.put(2, 2);
 
         computer.replaceCodeValues(replacements);
-        return computer.compute();
+        return computer.getResult();
     }
 
     public int part2() {
@@ -39,7 +39,8 @@ public class Day2 {
             for (int verb = 0; verb < 99; verb++) {
                 computer.replaceCodeValue(1, noun);
                 computer.replaceCodeValue(2, verb);
-                if (computer.compute() == 19690720) {
+                computer.compute();
+                if (computer.getResult() == 19690720) {
                     return 100 * noun + verb;
                 } else {
                     computer.setIntcode(this.icode);

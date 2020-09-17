@@ -27,12 +27,14 @@ public class Day5 {
 
     public int part1() {
         computer.reset();
-        return computer.compute();
+        computer.compute();
+        return computer.getResult();
     }
 
     public int part2() {
         computer.reset();
-        return computer.compute();
+        computer.compute();
+        return computer.getResult();
     }
 
     private void readCodeFromFile() {

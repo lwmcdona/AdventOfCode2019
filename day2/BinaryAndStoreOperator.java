@@ -3,11 +3,13 @@ package day2;
 import java.util.LinkedList;
 import java.util.List;
 
+import day2.Intcode.ExitCode;
+
 public abstract class BinaryAndStoreOperator extends Operator {
     public BinaryAndStoreOperator() {
         super();
-        this.opLength = 4;
-        this.numParams = 2;
+        setOpLength(4);
+        setNumParams(2);
     }
 
     public int operate(List<Integer> code, int index, int paramModes) {
@@ -18,7 +20,9 @@ public abstract class BinaryAndStoreOperator extends Operator {
         int location = code.get(index + 3);
         code.set(location, compute(first, second));
 
-        return index + this.opLength;
+        setStatus(ExitCode.CONTINUE);
+
+        return index + getOpLength();
     }
 
     public abstract int compute(int first, int second);

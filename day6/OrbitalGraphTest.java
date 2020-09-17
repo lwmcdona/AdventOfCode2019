@@ -3,10 +3,8 @@ package day6;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.nio.file.FileSystems;
-import java.nio.file.Path;
 import java.util.List;
 
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import helpers.InputHelper;

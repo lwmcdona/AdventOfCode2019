@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class OrbitalDirectedGraph implements OrbitalGraph {
-    private static final String Arrays = null;
     private HashMap<String, ArrayList<String>> orbits;
 
     public OrbitalDirectedGraph() {

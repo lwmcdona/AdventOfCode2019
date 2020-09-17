@@ -2,10 +2,12 @@ package day2;
 
 import java.util.LinkedList;
 import java.util.List;
+import day2.Intcode.ExitCode;
 
 public abstract class Operator {
-    protected int opLength;
-    protected int numParams;
+    private int opLength;
+    private int numParams;
+    private ExitCode status;
 
     public Operator() {
     }
@@ -16,6 +18,22 @@ public abstract class Operator {
 
     public int getNumParams() {
         return this.numParams;
+    }
+
+    public ExitCode getStatus() {
+        return this.status;
+    }
+
+    protected void setStatus(ExitCode status) {
+        this.status = status;
+    }
+
+    protected void setNumParams(int numParams) {
+        this.numParams = numParams;
+    }
+
+    protected void setOpLength(int opLength) {
+        this.opLength = opLength;
     }
 
     public abstract int operate(List<Integer> code, int index, int paramModes);

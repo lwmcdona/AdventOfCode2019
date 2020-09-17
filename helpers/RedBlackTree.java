@@ -1,7 +1,5 @@
 package helpers;
 
-import java.awt.Color;
-
 /**
  * Lab 2: Debugging with Eclipse and Red Black Tree) <br />
  * The {@code RedBlackTree} class of integers only <br />
@@ -137,7 +135,6 @@ public class RedBlackTree {
 	 *         {@code false}
 	 */
 	public boolean contains(int value) {
-		// TODO: Lab 2 Part 2-1 -- find an integer from the tree
 		Node insertion = location(value);
 		if (insertion != null && insertion.value != null && insertion.value == value) {
 			return true;
@@ -175,7 +172,6 @@ public class RedBlackTree {
 	 * @param data {@code int} New element to be inserted
 	 */
 	public void insert(int value) {
-		// TODO: Lab 2 Part 2-2 -- insert an integer into the tree
 		if (!this.contains(value)) {
 			Node insertion = location(value);
 			if (insertion == null) {
@@ -305,9 +301,6 @@ public class RedBlackTree {
 	 */
 	@Override
 	public String toString() {
-		// TODO: Lab 2 Part 2-3 -- print the tree, where each node contains both value
-		// and color
-		// You can print it by in-order traversal
 		return traverse(root);
 	}
 
