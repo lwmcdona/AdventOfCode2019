@@ -37,5 +37,4 @@ public class FuelCalculator {
         }
         return total;
     }
-
 }

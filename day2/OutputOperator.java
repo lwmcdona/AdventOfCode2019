@@ -1,34 +1,28 @@
 package day2;
 
-import java.util.LinkedList;
-import java.util.List;
-
+import java.math.BigInteger;
+import java.util.ArrayList;
 import day2.Intcode.ExitCode;
 import day7.Connection;
 
-public class OutputOperator extends Operator {
+public class OutputOperator extends UnaryOperator {
     private Connection output = null;
 
     public OutputOperator() {
         super();
-        setOpLength(2);
-        setNumParams(1);
     }
 
     public OutputOperator(Connection output) {
         super();
-        setOpLength(2);
-        setNumParams(1);
         this.output = output;
     }
 
-    public int operate(List<Integer> code, int index, int paramModes) {
-        LinkedList<Integer> parameters = getParameters(code, index + 1, paramModes);
-
+    public int operate(ArrayList<BigInteger> code, int index, Parameters params) {
+        BigInteger value = params.getParameter(1, code);
         if (output != null) {
-            output.send(parameters.pop());
+            output.send(value.intValue());
         } else {
-            System.out.println(parameters.pop());
+            System.out.println(value);
         }
 
         setStatus(ExitCode.CONTINUE);

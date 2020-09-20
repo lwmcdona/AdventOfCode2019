@@ -1,5 +1,6 @@
 package day2;
 
+import java.math.BigInteger;
 import java.nio.file.FileSystems;
 import java.nio.file.Path;
 import java.util.HashMap;
@@ -26,9 +27,9 @@ public class Day2 {
     }
 
     public int part1() {
-        HashMap<Integer, Integer> replacements = new HashMap<>();
-        replacements.put(1, 12);
-        replacements.put(2, 2);
+        HashMap<Integer, BigInteger> replacements = new HashMap<>();
+        replacements.put(1, new BigInteger("12"));
+        replacements.put(2, new BigInteger("2"));
 
         computer.replaceCodeValues(replacements);
         return computer.getResult();
@@ -37,8 +38,8 @@ public class Day2 {
     public int part2() {
         for (int noun = 0; noun < 99; noun++) {
             for (int verb = 0; verb < 99; verb++) {
-                computer.replaceCodeValue(1, noun);
-                computer.replaceCodeValue(2, verb);
+                computer.replaceCodeValue(1, new BigInteger(String.valueOf(noun)));
+                computer.replaceCodeValue(2, new BigInteger(String.valueOf(verb)));
                 computer.compute();
                 if (computer.getResult() == 19690720) {
                     return 100 * noun + verb;

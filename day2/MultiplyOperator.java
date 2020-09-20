@@ -1,12 +1,14 @@
 package day2;
 
-public class MultiplyOperator extends BinaryAndStoreOperator {
+import java.math.BigInteger;
+
+public class MultiplyOperator extends TernaryOperator {
     public MultiplyOperator() {
         super();
     }
 
     @Override
-    public int compute(int first, int second) {
-        return first * second;
+    public BigInteger compute(BigInteger first, BigInteger second) {
+        return first.multiply(second);
     }
 }

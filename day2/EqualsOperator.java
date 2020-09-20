@@ -1,16 +1,18 @@
 package day2;
 
-public class EqualsOperator extends BinaryAndStoreOperator {
+import java.math.BigInteger;
+
+public class EqualsOperator extends TernaryOperator {
     public EqualsOperator() {
         super();
     }
 
     @Override
-    public int compute(int first, int second) {
-        if (first == second) {
-            return 1;
+    public BigInteger compute(BigInteger first, BigInteger second) {
+        if (first.equals(second)) {
+            return BigInteger.ONE;
         }
-        return 0;
+        return BigInteger.ZERO;
     }
 
 }

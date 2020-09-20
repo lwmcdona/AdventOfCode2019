@@ -1,7 +1,7 @@
 package day2;
 
-import java.util.LinkedList;
-import java.util.List;
+import java.math.BigInteger;
+import java.util.ArrayList;
 import day2.Intcode.ExitCode;
 
 public abstract class Operator {
@@ -36,23 +36,5 @@ public abstract class Operator {
         this.opLength = opLength;
     }
 
-    public abstract int operate(List<Integer> code, int index, int paramModes);
-
-    protected LinkedList<Integer> getParameters(List<Integer> code, int start, int paramModes) {
-        LinkedList<Integer> parameters = new LinkedList<>();
-
-        for (int i = start; i < start + getNumParams(); i++) {
-            int mode = paramModes % 10;
-            int value = code.get(i);
-            if (mode == 0) {
-                value = code.get(value);
-            }
-
-            parameters.add(value);
-
-            paramModes /= 10;
-        }
-
-        return parameters;
-    }
+    public abstract int operate(ArrayList<BigInteger> code, int index, Parameters params);
 }

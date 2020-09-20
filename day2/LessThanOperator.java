@@ -1,15 +1,17 @@
 package day2;
 
-public class LessThanOperator extends BinaryAndStoreOperator {
+import java.math.BigInteger;
+
+public class LessThanOperator extends TernaryOperator {
     public LessThanOperator() {
         super();
     }
 
     @Override
-    public int compute(int first, int second) {
-        if (first < second) {
-            return 1;
+    public BigInteger compute(BigInteger first, BigInteger second) {
+        if (first.compareTo(second) < 0) {
+            return BigInteger.ONE;
         }
-        return 0;
+        return BigInteger.ZERO;
     }
 }
