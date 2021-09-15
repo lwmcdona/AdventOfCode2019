@@ -28,14 +28,6 @@ public class PaintingRobot {
             }
         }
 
-        public static Direction valueOf(int value) {
-            return map.get(value);
-        }
-
-        public int getValue() {
-            return value;
-        }
-
         private Direction turnLeft() {
             return map.get((((value - 1) % 4) + 4) % 4);
         }
@@ -70,10 +62,6 @@ public class PaintingRobot {
 
         public static Colour valueOf(int colour) {
             return map.get(colour);
-        }
-
-        public int getValue() {
-            return value;
         }
     }
 
